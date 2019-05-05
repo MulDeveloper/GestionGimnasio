@@ -5,5 +5,5 @@ Ejemplo de Java Swing para la gestion de un gimnasio con funcionalidades basicas
 
 - Gestion de usuarios
 - Gestion de clases
-- Gestion de personal
+- Gestion de incidencias
 - Organizacion
