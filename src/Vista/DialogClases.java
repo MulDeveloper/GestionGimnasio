@@ -1,29 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Vista;
 
+import Modelo.Clase;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Acer
+ * @author MulDev
+ *  www.muldev.tech
+ *  Software ejemplo en Java Swing
  */
 public class DialogClases extends javax.swing.JDialog {
 
     public static DefaultTableModel modeloClases;
+    private ArrayList <Clase> listaLunes;
+    private ArrayList <Clase> listaMartes;
+    private ArrayList <Clase> listaMierc;
+    private ArrayList <Clase> listaJueves;
+    private ArrayList <Clase> listaViernes;
+    private ArrayList <Clase> listaSabado;
+    private ArrayList <Clase> listaDom;
     
     public DialogClases(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         jLabel1.setOpaque(true);
-        modeloClases = new DefaultTableModel(){
-            public boolean isCellEditable(int row, int col){
-                return false;
-            }
-        };
+        modeloClases = new DefaultTableModel();
         TablaClases.setModel(modeloClases);
         modeloClases.addColumn("LUNES");
         modeloClases.addColumn("MARTES");
@@ -32,6 +35,7 @@ public class DialogClases extends javax.swing.JDialog {
         modeloClases.addColumn("VIERNES");
         modeloClases.addColumn("SABADO");
         modeloClases.addColumn("DOMINGO");
+ 
                 
     }
 
@@ -48,6 +52,9 @@ public class DialogClases extends javax.swing.JDialog {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -92,6 +99,11 @@ public class DialogClases extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_formWindowClosed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //metodo que carga las clases de la bbdd
+        cargarClases();
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -132,6 +144,41 @@ public class DialogClases extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+    
+    public void cargarClases(){
+        listaLunes = Inicio.ctrl.getClases(1);
+        listaMartes = Inicio.ctrl.getClases(2);
+        listaMierc = Inicio.ctrl.getClases(3);
+        listaJueves = Inicio.ctrl.getClases(4);
+        listaViernes = Inicio.ctrl.getClases(5);
+        listaSabado = Inicio.ctrl.getClases(6);
+        listaDom = Inicio.ctrl.getClases(7);
+        modeloClases.addRow(new Object[10]);
+        for (Clase c: listaLunes){
+            modeloClases.addRow(new Object[]{c.getNombreClase()});
+
+        }
+        for (int i=0;i<listaMartes.size();i++){
+           modeloClases.setValueAt(listaMartes.get(i).getNombreClase(), i, 1);
+        }
+        for (int i=0;i<listaMierc.size();i++){
+           modeloClases.setValueAt(listaMierc.get(i).getNombreClase(), i, 2);
+        }
+        for (int i=0;i<listaJueves.size();i++){
+           modeloClases.setValueAt(listaJueves.get(i).getNombreClase(), i, 3);
+        }
+        for (int i=0;i<listaViernes.size();i++){
+           modeloClases.setValueAt(listaViernes.get(i).getNombreClase(), i, 4);
+        }
+        for (int i=0;i<listaSabado.size();i++){
+           modeloClases.setValueAt(listaSabado.get(i).getNombreClase(), i, 5);
+        }
+        for (int i=0;i<listaDom.size();i++){
+           modeloClases.setValueAt(listaDom.get(i).getNombreClase(), i, 6);
+        }
+  
+  
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -3,26 +3,26 @@ package Modelo;
 
 
 public class Clase {
-    private String idClase;
+    private int idClase;
     private String nombreClase;
-    private String horaClase;
-    private String idMonitor;
+    private int  horaClase;
+    private int idMonitor;
 
     public Clase() {
     }
 
-    public Clase(String idClase, String nombreClase, String horaClase, String idMonitor) {
+    public Clase(int idClase, String nombreClase, int horaClase, int idMonitor) {
         this.idClase = idClase;
         this.nombreClase = nombreClase;
         this.horaClase = horaClase;
         this.idMonitor = idMonitor;
     }
 
-    public String getIdClase() {
+    public int getIdClase() {
         return idClase;
     }
 
-    public void setIdClase(String idClase) {
+    public void setIdClase(int idClase) {
         this.idClase = idClase;
     }
 
@@ -34,20 +34,26 @@ public class Clase {
         this.nombreClase = nombreClase;
     }
 
-    public String getHoraClase() {
+    public int getHoraClase() {
         return horaClase;
     }
 
-    public void setHoraClase(String horaClase) {
+    public void setHoraClase(int horaClase) {
         this.horaClase = horaClase;
     }
 
-    public String getIdMonitor() {
+    public int getIdMonitor() {
         return idMonitor;
     }
 
-    public void setIdMonitor(String idMonitor) {
+    public void setIdMonitor(int idMonitor) {
         this.idMonitor = idMonitor;
     }
+
+    
+
+    
+
+    
     
 }

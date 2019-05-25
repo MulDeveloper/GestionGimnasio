@@ -1,7 +1,11 @@
 
 package Vista;
 
+import Modelo.*;
+import Controlador.*;
 import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,15 +20,24 @@ public class Inicio extends javax.swing.JFrame {
     public static String nomUsu;
     public static DefaultTableModel modeloTabla;
     public static DialogClases dClases;
+    public static ArrayList <Usuario> listaUsuarios;
+    public static ArrayList <Incidencia> listaIncidencias;
+    public static ArrayList <Personal> listaPersonal;
+    public static ArrayList <Clase> listaClases;
+    public static ArrayList <Tarifas> listaTarifas;
+    public static DialogIncidencia dInci;
+    public static CtrlBD ctrl;
     
     public Inicio() {
         setExtendedState(MAXIMIZED_BOTH);
         initComponents();
+        //dialog de login y posicion
         login = new DialogLogin(this, true);
         login.setLocationRelativeTo(this);
         login.setLocation(500, 230);
         login.setResizable(false);
         PanelUsuarios.setVisible(false);
+        //tabla de usuarios estara dentro del frame principal no editable
         modeloTabla = new DefaultTableModel(){
         @Override
         public boolean isCellEditable(int row, int col){
@@ -39,9 +52,21 @@ public class Inicio extends javax.swing.JFrame {
         modeloTabla.addColumn("DIRECCION");
         modeloTabla.addColumn("ESTADO PAGO");
         
+        //dialogs de clases e incidencias
         dClases = new DialogClases(this,true);
+        dInci = new DialogIncidencia(this,true);
         
+        //label de menu opaco
         jLabel1.setOpaque(true);
+        
+        ctrl = new CtrlBD();
+        
+        if(!ctrl.conectarBd()){
+            JOptionPane.showMessageDialog(this, "Error en la conexion a la base de datos");
+            System.exit(0);
+        }
+                
+        
 
     }
 
@@ -71,18 +96,6 @@ public class Inicio extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1366, 768));
         setResizable(false);
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                formMouseEntered(evt);
-            }
-        });
-        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
-            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
-                formWindowGainedFocus(evt);
-            }
-            public void windowLostFocus(java.awt.event.WindowEvent evt) {
-            }
-        });
 
         LbBanner.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/banner.png"))); // NOI18N
 
@@ -333,7 +346,8 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_BtClasesActionPerformed
 
     private void BtIncidenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtIncidenciasActionPerformed
-        // TODO add your handling code here:
+        // hacemos visible el dialog de incidencias
+        dInci.setVisible(true);
     }//GEN-LAST:event_BtIncidenciasActionPerformed
 
     private void BtOrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtOrgActionPerformed
@@ -370,16 +384,6 @@ public class Inicio extends javax.swing.JFrame {
         BtOrg.setForeground(Color.black);
     }//GEN-LAST:event_BtOrgMouseExited
 
-    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        // colocamos el nombre de usuario
-        
-        
-    }//GEN-LAST:event_formMouseEntered
-
-    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-        LabelUser.setText("Conectado como: " + nomUsu);
-    }//GEN-LAST:event_formWindowGainedFocus
-
     /**
      * @param args the command line arguments
      */
@@ -415,6 +419,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
     }
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
