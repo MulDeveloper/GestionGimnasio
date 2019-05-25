@@ -92,6 +92,7 @@ public class DialogLogin extends javax.swing.JDialog {
 
     private void BtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtLoginActionPerformed
          dispose();
+         Inicio.nomUsu = TFUsuario.getText();
     }//GEN-LAST:event_BtLoginActionPerformed
 
     /**
