@@ -7,3 +7,5 @@ Ejemplo de Java Swing para la gestion de un gimnasio con funcionalidades basicas
 - Gestion de clases
 - Gestion de incidencias
 - Organizacion
+
+Utilizaremos Oracle Database XE como BBDD para la gestión del programa
