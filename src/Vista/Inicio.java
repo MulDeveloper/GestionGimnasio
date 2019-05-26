@@ -3,7 +3,6 @@ package Vista;
 
 import Modelo.*;
 import Controlador.*;
-import com.sun.xml.internal.ws.util.StringUtils;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
@@ -475,8 +474,8 @@ public class Inicio extends javax.swing.JFrame {
     private void BTBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTBuscarActionPerformed
         if(!TFApellido.getText().equals("")){
             String apellido = TFApellido.getText();
-            apellido = StringUtils.capitalize(apellido);
-            listaBusqueda = ctrl.busquedaUsuariosApellido(apellido);
+            String ap = apellido.substring(0, 1).toUpperCase() + apellido.substring(1);
+            listaBusqueda = ctrl.busquedaUsuariosApellido(ap);
             if(!listaBusqueda.isEmpty()){
                 int estado;
                 modeloTabla.setRowCount(0);

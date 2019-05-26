@@ -5,8 +5,6 @@ import Modelo.Clase;
 import Modelo.Incidencia;
 import Modelo.Tarifas;
 import Modelo.Usuario;
-import java.awt.image.BufferedImage;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,8 +23,6 @@ public class CtrlBD {
     private ArrayList listaInci;
     private ArrayList listaTari;
     private PreparedStatement pstmt;
-    private InputStream in;
-    private BufferedImage img;
 
     public CtrlBD() {
     }
