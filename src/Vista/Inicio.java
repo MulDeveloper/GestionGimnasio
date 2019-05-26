@@ -3,10 +3,14 @@ package Vista;
 
 import Modelo.*;
 import Controlador.*;
+import com.sun.xml.internal.ws.util.StringUtils;
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+
 
 /**
  *
@@ -22,6 +26,7 @@ public class Inicio extends javax.swing.JFrame {
     public static DialogClases dClases;
     public static DialogNuevoUsuario dUsuario;
     public static ArrayList <Usuario> listaUsuarios;
+    public static ArrayList <Usuario> listaBusqueda;
     public static ArrayList <Incidencia> listaIncidencias;
     public static ArrayList <Personal> listaPersonal;
     public static ArrayList <Clase> listaClases;
@@ -30,6 +35,10 @@ public class Inicio extends javax.swing.JFrame {
     public static CtrlBD ctrl;
     public static int indiceUsuario;
     public static DialogDatosUsuario modiUsuario;
+    public static Double totalEntrada;
+    public static Double totalSalida;
+    public static DocXml crearXml;
+    public static File img;
     
     public Inicio() {
         setExtendedState(MAXIMIZED_BOTH);
@@ -72,6 +81,7 @@ public class Inicio extends javax.swing.JFrame {
         }
                 
         obtenerRegistros();
+       
 
     }
 
@@ -251,13 +261,28 @@ public class Inicio extends javax.swing.JFrame {
         jLabel3.setText("APELLIDO:");
 
         BTBuscar.setText("BUSCAR");
+        BTBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTBuscarActionPerformed(evt);
+            }
+        });
 
         BTBaja.setBackground(new java.awt.Color(255, 0, 0));
         BTBaja.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         BTBaja.setForeground(new java.awt.Color(255, 255, 255));
         BTBaja.setText("BAJA CLIENTE");
+        BTBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTBajaActionPerformed(evt);
+            }
+        });
 
         BTTodos.setText("MOSTRAR TODOS");
+        BTTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTTodosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelUsuariosLayout = new javax.swing.GroupLayout(PanelUsuarios);
         PanelUsuarios.setLayout(PanelUsuariosLayout);
@@ -381,7 +406,17 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_BtIncidenciasActionPerformed
 
     private void BtOrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtOrgActionPerformed
-        // TODO add your handling code here:
+        // OBTENEMOS DOCUMENTO CON FACTURACION MENSUAL
+        totalEntrada = ctrl.getFacturacion();
+        totalSalida = ctrl.getSueldos();
+        crearXml = new DocXml();
+        if(crearXml.crearDoc()){
+            JOptionPane.showMessageDialog(this, "Archivo creado correctamente en el escritorio");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Se ha producido un error, ruta inaccesible", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_BtOrgActionPerformed
 
     private void BtClasesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtClasesMouseEntered
@@ -425,6 +460,52 @@ public class Inicio extends javax.swing.JFrame {
         modiUsuario = new DialogDatosUsuario(this,true);
         modiUsuario.setVisible(true);
     }//GEN-LAST:event_TableUsuariosMouseClicked
+
+    private void BTBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTBajaActionPerformed
+        if (TableUsuarios.getSelectedRow()!=-1){
+            ctrl.bajaUsuario(listaUsuarios.get(TableUsuarios.getSelectedRow()).getIdUsuario());
+            obtenerRegistros();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "No hay usuario seleccionado");
+        }
+        
+    }//GEN-LAST:event_BTBajaActionPerformed
+
+    private void BTBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTBuscarActionPerformed
+        if(!TFApellido.getText().equals("")){
+            String apellido = TFApellido.getText();
+            apellido = StringUtils.capitalize(apellido);
+            listaBusqueda = ctrl.busquedaUsuariosApellido(apellido);
+            if(!listaBusqueda.isEmpty()){
+                int estado;
+                modeloTabla.setRowCount(0);
+                //recorremos array de usuarios y añadimos
+                for (Usuario us:listaBusqueda){
+                estado = ctrl.estadoPago(us.getIdUsuario());
+                String tarifa = listaTarifas.get(us.getTipoTarifa()-1).getNomTarifa();
+                String estadoPago="PAGADO";
+
+                if (estado==0){
+                    estadoPago = "NO PAGADO";
+                }
+                modeloTabla.addRow(new Object[]{us.getIdUsuario(), us.getNombreUsuario(),
+                (us.getApellidoUsuario()+" "+us.getSegundoApellidoUsuario()), tarifa,
+                us.getDireccion(), estadoPago});
+                }  
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "No hay registros");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Error en los campos");
+        }
+    }//GEN-LAST:event_BTBuscarActionPerformed
+
+    private void BTTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTTodosActionPerformed
+        obtenerRegistros();
+    }//GEN-LAST:event_BTTodosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -486,7 +567,7 @@ public class Inicio extends javax.swing.JFrame {
             (us.getApellidoUsuario()+" "+us.getSegundoApellidoUsuario()), tarifa,
             us.getDireccion(), estadoPago});
         }
- 
+        
     }
     
 

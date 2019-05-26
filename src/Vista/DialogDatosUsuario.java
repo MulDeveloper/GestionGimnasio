@@ -17,6 +17,7 @@ public class DialogDatosUsuario extends javax.swing.JDialog {
     public DefaultComboBoxModel modeloTarifas;
     private int cod;
     private Usuario user;
+
     
     public DialogDatosUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -229,6 +230,7 @@ public class DialogDatosUsuario extends javax.swing.JDialog {
         TFNif.setText(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getNif());
         TFDireccion.setText(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getDireccion());
         CBTarifas.setSelectedIndex(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getTipoTarifa()-1);
+        
     }
     
     public void modificarUsuario(){

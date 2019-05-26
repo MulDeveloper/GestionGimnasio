@@ -354,6 +354,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="BUSCAR"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTBuscarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="BTBaja">
               <Properties>
@@ -368,11 +371,17 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="BAJA CLIENTE"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTBajaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="BTTodos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="MOSTRAR TODOS"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTTodosActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

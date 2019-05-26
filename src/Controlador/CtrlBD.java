@@ -5,7 +5,8 @@ import Modelo.Clase;
 import Modelo.Incidencia;
 import Modelo.Tarifas;
 import Modelo.Usuario;
-import Vista.Inicio;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,6 +25,8 @@ public class CtrlBD {
     private ArrayList listaInci;
     private ArrayList listaTari;
     private PreparedStatement pstmt;
+    private InputStream in;
+    private BufferedImage img;
 
     public CtrlBD() {
     }
@@ -126,6 +129,31 @@ public class CtrlBD {
         }
     }
     
+    public ArrayList busquedaUsuariosApellido(String apellido){
+        String cons = "SELECT * FROM USUARIOS WHERE APELLIDO LIKE'%"+apellido+"%' ORDER BY IDUSUARIO";
+        listaUser = new ArrayList ();
+        try{
+            instruccion = conexion.createStatement();
+            rs = instruccion.executeQuery(cons);
+            while(rs.next()){
+                int id = rs.getInt("IDUSUARIO");
+                String nom = rs.getString("NOMBRE");
+                String ape = rs.getString("APELLIDO");
+                String segundoape = rs.getString("SEGUNDOAPELLIDO");
+                String nif = rs.getString("NIF");
+                int idtarifa = rs.getInt("IDTARIFA");
+                String direccion = rs.getString("DIRECCION");
+                listaUser.add(new Usuario(id,nom,ape,segundoape,nif,idtarifa,direccion));
+            }
+            instruccion.close();
+            rs.close();
+            return listaUser;
+        }
+        catch(SQLException e){
+            return null;
+        }
+    }
+    
     
     public ArrayList getTarifas(){
         String cons = "SELECT * FROM TARIFAS ORDER BY IDTARIFA";
@@ -185,6 +213,18 @@ public class CtrlBD {
         String cons = "INSERT INTO USUARIOS VALUES("+u.getIdUsuario()+",'"+u.getNombreUsuario()+"'"
                 + ",'"+u.getApellidoUsuario()+"','"+u.getSegundoApellidoUsuario()+"','"+u.getNif()+"',"
                 + u.getTipoTarifa()+",'"+u.getDireccion()+"')";
+        try{
+            instruccion = conexion.createStatement();
+            int nreg = instruccion.executeUpdate(cons);
+            instruccion.close();
+            return nreg;
+        }
+        catch(SQLException e){
+            return -1;
+        }
+    }
+    public int bajaUsuario(int cod){
+        String cons = "DELETE FROM USUARIOS WHERE IDUSUARIO="+cod;
         try{
             instruccion = conexion.createStatement();
             int nreg = instruccion.executeUpdate(cons);
@@ -258,6 +298,38 @@ public class CtrlBD {
         return -1;
     }
     
-    
+    public Double getFacturacion(){
+        String cons = "SELECT SUM(PRECIO) AS ENTRADAS FROM TARIFAS INNER JOIN USUARIOS ON TARIFAS.IDTARIFA = USUARIOS.IDTARIFA";
+        try{
+            instruccion = conexion.createStatement();
+            rs = instruccion.executeQuery(cons);
+            if(rs.next()){
+                return rs.getDouble("ENTRADAS");
+            }
+            instruccion.close();
+            rs.close();
+        }
+        catch(SQLException e){
+            return -1.0;
+        }
+        return -1.0;
+    }
+    public Double getSueldos(){
+        String cons = "SELECT SUM(SUELDO) AS SALIDAS FROM PERSONAL";
+        try{
+            instruccion = conexion.createStatement();
+            rs = instruccion.executeQuery(cons);
+            if(rs.next()){
+                return rs.getDouble("SALIDAS");
+            }
+            instruccion.close();
+            rs.close();
+        }
+        catch(SQLException e){
+            return -1.0;
+        }
+        return -1.0;
+    }
+
     
 }
