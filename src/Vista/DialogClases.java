@@ -147,6 +147,7 @@ public class DialogClases extends javax.swing.JDialog {
     }
     
     public void cargarClases(){
+        //cargamos las clases en arraylist para poder trabajar con ellas en otro momento
         listaLunes = Inicio.ctrl.getClases(1);
         listaMartes = Inicio.ctrl.getClases(2);
         listaMierc = Inicio.ctrl.getClases(3);
@@ -155,6 +156,8 @@ public class DialogClases extends javax.swing.JDialog {
         listaSabado = Inicio.ctrl.getClases(6);
         listaDom = Inicio.ctrl.getClases(7);
         modeloClases.addRow(new Object[10]);
+        
+        //las añadimos al modelo
         for (Clase c: listaLunes){
             modeloClases.addRow(new Object[]{c.getNombreClase()});
 

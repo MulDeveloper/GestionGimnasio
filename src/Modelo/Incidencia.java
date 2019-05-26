@@ -3,22 +3,22 @@ package Modelo;
 
 
 public class Incidencia {
-    private String idIncidencia;
+    private int idIncidencia;
     private String descpricionIncidencia;
 
     public Incidencia() {
     }
 
-    public Incidencia(String idIncidencia, String descpricionIncidencia) {
+    public Incidencia(int idIncidencia, String descpricionIncidencia) {
         this.idIncidencia = idIncidencia;
         this.descpricionIncidencia = descpricionIncidencia;
     }
 
-    public String getIdIncidencia() {
+    public int getIdIncidencia() {
         return idIncidencia;
     }
 
-    public void setIdIncidencia(String idIncidencia) {
+    public void setIdIncidencia(int idIncidencia) {
         this.idIncidencia = idIncidencia;
     }
 

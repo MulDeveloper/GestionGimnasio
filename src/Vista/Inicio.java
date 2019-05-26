@@ -20,6 +20,7 @@ public class Inicio extends javax.swing.JFrame {
     public static String nomUsu;
     public static DefaultTableModel modeloTabla;
     public static DialogClases dClases;
+    public static DialogNuevoUsuario dUsuario;
     public static ArrayList <Usuario> listaUsuarios;
     public static ArrayList <Incidencia> listaIncidencias;
     public static ArrayList <Personal> listaPersonal;
@@ -27,6 +28,8 @@ public class Inicio extends javax.swing.JFrame {
     public static ArrayList <Tarifas> listaTarifas;
     public static DialogIncidencia dInci;
     public static CtrlBD ctrl;
+    public static int indiceUsuario;
+    public static DialogDatosUsuario modiUsuario;
     
     public Inicio() {
         setExtendedState(MAXIMIZED_BOTH);
@@ -55,6 +58,8 @@ public class Inicio extends javax.swing.JFrame {
         //dialogs de clases e incidencias
         dClases = new DialogClases(this,true);
         dInci = new DialogIncidencia(this,true);
+        dUsuario = new DialogNuevoUsuario(this,true);
+        //modiUsuario = new DialogDatosUsuario(this,true);
         
         //label de menu opaco
         jLabel1.setOpaque(true);
@@ -66,7 +71,7 @@ public class Inicio extends javax.swing.JFrame {
             System.exit(0);
         }
                 
-        
+        obtenerRegistros();
 
     }
 
@@ -88,10 +93,12 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TableUsuarios = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        BTAlta = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         TFApellido = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        BTBuscar = new javax.swing.JButton();
+        BTBaja = new javax.swing.JButton();
+        BTTodos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1366, 768));
@@ -220,20 +227,37 @@ public class Inicio extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        TableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TableUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TableUsuarios);
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("BUSCAR CLIENTE");
 
-        jButton1.setBackground(new java.awt.Color(51, 204, 0));
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("NUEVO CLIENTE");
+        BTAlta.setBackground(new java.awt.Color(51, 204, 0));
+        BTAlta.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        BTAlta.setForeground(new java.awt.Color(255, 255, 255));
+        BTAlta.setText("NUEVO CLIENTE");
+        BTAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTAltaActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("APELLIDO:");
 
-        jButton2.setText("BUSCAR");
+        BTBuscar.setText("BUSCAR");
+
+        BTBaja.setBackground(new java.awt.Color(255, 0, 0));
+        BTBaja.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        BTBaja.setForeground(new java.awt.Color(255, 255, 255));
+        BTBaja.setText("BAJA CLIENTE");
+
+        BTTodos.setText("MOSTRAR TODOS");
 
         javax.swing.GroupLayout PanelUsuariosLayout = new javax.swing.GroupLayout(PanelUsuarios);
         PanelUsuarios.setLayout(PanelUsuariosLayout);
@@ -243,21 +267,23 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(PanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelUsuariosLayout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(PanelUsuariosLayout.createSequentialGroup()
-                            .addGap(18, 18, 18)
-                            .addGroup(PanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(PanelUsuariosLayout.createSequentialGroup()
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(TFApellido)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelUsuariosLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(PanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BTBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BTAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanelUsuariosLayout.createSequentialGroup()
-                        .addGap(164, 164, 164)
-                        .addComponent(jButton2)))
+                        .addGap(18, 18, 18)
+                        .addGroup(PanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PanelUsuariosLayout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(TFApellido))
+                            .addGroup(PanelUsuariosLayout.createSequentialGroup()
+                                .addComponent(BTTodos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BTBuscar)))))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
         PanelUsuariosLayout.setVerticalGroup(
@@ -271,10 +297,14 @@ public class Inicio extends javax.swing.JFrame {
                         .addGroup(PanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(TFApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addGroup(PanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BTBuscar)
+                            .addComponent(BTTodos))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(BTBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BTAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -384,6 +414,18 @@ public class Inicio extends javax.swing.JFrame {
         BtOrg.setForeground(Color.black);
     }//GEN-LAST:event_BtOrgMouseExited
 
+    private void BTAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTAltaActionPerformed
+        // aqui se da de alta un nuevo cliente en la bbdd, creamos el dialog
+        dUsuario.setVisible(true);
+        
+    }//GEN-LAST:event_BTAltaActionPerformed
+
+    private void TableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableUsuariosMouseClicked
+        indiceUsuario = TableUsuarios.getSelectedRow();
+        modiUsuario = new DialogDatosUsuario(this,true);
+        modiUsuario.setVisible(true);
+    }//GEN-LAST:event_TableUsuariosMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -420,9 +462,42 @@ public class Inicio extends javax.swing.JFrame {
         });
     }
     
+    public static void obtenerRegistros(){
+        //metodo que inserta todos los registros de la bbdd en memoria
+        
+        //obtenemos datos de la bd
+        listaUsuarios = ctrl.getUsuarios();
+        listaTarifas = ctrl.getTarifas();
+        //int de estado y modelo a 0 para reutilizar la funcion
+        int estado;
+        modeloTabla.setRowCount(0);
+        //recorremos array de usuarios y añadimos
+        for (Usuario us:listaUsuarios){
+            estado = ctrl.estadoPago(us.getIdUsuario());
+            
+            String tarifa = listaTarifas.get(us.getTipoTarifa()-1).getNomTarifa();
+            
+            String estadoPago="PAGADO";
+            
+            if (estado==0){
+                estadoPago = "NO PAGADO";
+            }
+            modeloTabla.addRow(new Object[]{us.getIdUsuario(), us.getNombreUsuario(),
+            (us.getApellidoUsuario()+" "+us.getSegundoApellidoUsuario()), tarifa,
+            us.getDireccion(), estadoPago});
+        }
+ 
+    }
+    
+
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTAlta;
+    private javax.swing.JButton BTBaja;
+    private javax.swing.JButton BTBuscar;
+    private javax.swing.JButton BTTodos;
     private javax.swing.JButton BtClases;
     private javax.swing.JButton BtIncidencias;
     private javax.swing.JButton BtOrg;
@@ -434,8 +509,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel PanelUsuarios;
     private javax.swing.JTextField TFApellido;
     private javax.swing.JTable TableUsuarios;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

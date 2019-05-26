@@ -5,9 +5,9 @@
         <group>
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/GestionGimnasio/src/Vista/Inicio.java</file>
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/GestionGimnasio/src/Modelo/Clase.java</file>
+            <file>file:/C:/Users/Acer/Documents/NetBeansProjects/GestionGimnasio/src/Vista/DialogDatosUsuario.java</file>
             <file>file:/C:/Users/Acer/Documents/NetBeansProjects/GestionGimnasio/src/Controlador/CtrlBD.java</file>
-            <file>file:/C:/Users/Acer/Documents/NetBeansProjects/GestionGimnasio/src/Vista/DialogClases.java</file>
-            <file>file:/C:/Users/Acer/Documents/NetBeansProjects/GestionGimnasio/src/Vista/DialogLogin.java</file>
+            <file>file:/C:/Users/Acer/Documents/NetBeansProjects/GestionGimnasio/src/Vista/DialogNuevoUsuario.java</file>
         </group>
     </open-files>
 </project-private>

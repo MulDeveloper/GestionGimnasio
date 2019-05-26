@@ -12,13 +12,13 @@ import javax.swing.JOptionPane;
  *  www.muldev.tech
  *  Software ejemplo en Java Swing
  */
-public class DialogNuevoUsuario extends javax.swing.JDialog {
+public class DialogDatosUsuario extends javax.swing.JDialog {
 
     public DefaultComboBoxModel modeloTarifas;
     private int cod;
     private Usuario user;
     
-    public DialogNuevoUsuario(java.awt.Frame parent, boolean modal) {
+    public DialogDatosUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         modeloTarifas = new DefaultComboBoxModel();
@@ -46,7 +46,6 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         CBTarifas = new javax.swing.JComboBox<>();
         BTAceptar = new javax.swing.JButton();
-        BTCancelar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         TFDireccion = new javax.swing.JTextField();
 
@@ -74,17 +73,12 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
         BTAceptar.setBackground(new java.awt.Color(51, 204, 0));
         BTAceptar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         BTAceptar.setForeground(new java.awt.Color(255, 255, 255));
-        BTAceptar.setText("ACEPTAR");
+        BTAceptar.setText("MODIFICAR");
         BTAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BTAceptarActionPerformed(evt);
             }
         });
-
-        BTCancelar.setBackground(new java.awt.Color(255, 0, 0));
-        BTCancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        BTCancelar.setForeground(new java.awt.Color(255, 255, 255));
-        BTCancelar.setText("CANCELAR");
 
         jLabel7.setText("DIRECCION");
 
@@ -96,8 +90,7 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BTCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(BTAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34))
                     .addGroup(layout.createSequentialGroup()
@@ -161,9 +154,7 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
                     .addComponent(jLabel6)
                     .addComponent(CBTarifas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(BTCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(BTAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(BTAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
 
@@ -172,12 +163,13 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
 
     private void BTAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTAceptarActionPerformed
         // insertar usuario
-        insertarUsuario();
+        modificarUsuario();
+        
     }//GEN-LAST:event_BTAceptarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         cargarTarifas();
-        cargarId();
+        cargarUsuario();
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -197,20 +189,21 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogDatosUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogDatosUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogDatosUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogNuevoUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogDatosUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DialogNuevoUsuario dialog = new DialogNuevoUsuario(new javax.swing.JFrame(), true);
+                DialogDatosUsuario dialog = new DialogDatosUsuario(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -227,21 +220,29 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
             modeloTarifas.addElement(t.getNomTarifa());
         }
     }
-    public void cargarId(){
-        cod = Inicio.ctrl.getId()+1;
-        TFId.setText(""+cod);
+
+    public void cargarUsuario(){
+        TFId.setText(""+Inicio.listaUsuarios.get(Inicio.indiceUsuario).getIdUsuario());
+        TFNombre.setText(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getNombreUsuario());
+        TFPrimer.setText(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getApellidoUsuario());
+        TFSegundo.setText(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getSegundoApellidoUsuario());
+        TFNif.setText(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getNif());
+        TFDireccion.setText(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getDireccion());
+        CBTarifas.setSelectedIndex(Inicio.listaUsuarios.get(Inicio.indiceUsuario).getTipoTarifa()-1);
     }
     
-    public void insertarUsuario(){
+    public void modificarUsuario(){
        if (comprobarDatos()){
+           int id = Integer.parseInt(TFId.getText());
            String nombre = TFNombre.getText();
            String primer = TFPrimer.getText();
            String seg = TFSegundo.getText();
            String nif = TFNif.getText();
            int tarifa = CBTarifas.getSelectedIndex()+1;
            String dir = TFDireccion.getText();
-           user = new Usuario(cod,nombre,primer,seg,nif,tarifa,dir);
-           if(Inicio.ctrl.insertarUsuario(user)==1){
+           user = new Usuario(id,nombre,primer,seg,nif,tarifa,dir);
+           if(Inicio.ctrl.modificarUsuario(user)==1){
+               JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
                TFNombre.setText("");
                TFPrimer.setText("");
                TFSegundo.setText("");
@@ -249,11 +250,7 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
                CBTarifas.setSelectedIndex(0);
                TFDireccion.setText("");
                Inicio.obtenerRegistros();
-               cargarId();
                dispose();
-           }
-           else{
-               JOptionPane.showMessageDialog(this, "Error, Revisa los campos");
            }
            
        }
@@ -268,7 +265,6 @@ public class DialogNuevoUsuario extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTAceptar;
-    private javax.swing.JButton BTCancelar;
     private javax.swing.JComboBox<String> CBTarifas;
     private javax.swing.JLabel LabelFoto;
     private javax.swing.JTextField TFDireccion;

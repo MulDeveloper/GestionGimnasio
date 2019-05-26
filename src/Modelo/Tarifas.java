@@ -3,25 +3,25 @@ package Modelo;
 
 
 public class Tarifas {
-    private String idTarifa;
+    private int idTarifa;
     private String nomTarifa;
-    private String precio;
+    private Double precio;
 
     public Tarifas() {
     }
 
-    public Tarifas(String idTarifa, String nomTarifa, String precio) {
+    public Tarifas(int idTarifa, String nomTarifa, Double precio) {
         this.idTarifa = idTarifa;
         this.nomTarifa = nomTarifa;
         this.precio = precio;
     }
     
 
-    public String getIdTarifa() {
+    public int getIdTarifa() {
         return idTarifa;
     }
 
-    public void setIdTarifa(String idTarifa) {
+    public void setIdTarifa(int idTarifa) {
         this.idTarifa = idTarifa;
     }
 
@@ -33,11 +33,11 @@ public class Tarifas {
         this.nomTarifa = nomTarifa;
     }
 
-    public String getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
     

@@ -1,6 +1,8 @@
 
 package Vista;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author MulDev
@@ -9,9 +11,7 @@ package Vista;
  */
 public class DialogLogin extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DialogLogin
-     */
+    
     public DialogLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -34,6 +34,11 @@ public class DialogLogin extends javax.swing.JDialog {
         PFPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -89,9 +94,18 @@ public class DialogLogin extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtLoginActionPerformed
-         dispose();
-         Inicio.nomUsu = TFUsuario.getText();
+         if (Inicio.ctrl.conectaAdmin(TFUsuario.getText(), PFPass.getText())){
+             dispose();
+             Inicio.nomUsu = TFUsuario.getText();
+         }
+         else{
+             JOptionPane.showMessageDialog(this, "Error en la conexion, credenciales erroneas", "Login error", JOptionPane.ERROR_MESSAGE);
+         }
     }//GEN-LAST:event_BtLoginActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

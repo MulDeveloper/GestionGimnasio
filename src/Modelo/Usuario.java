@@ -8,13 +8,13 @@ public class Usuario {
     private String apellidoUsuario;
     private String segundoApellidoUsuario;
     private String nif;
-    private String tipoTarifa;
+    private int tipoTarifa;
     private String direccion;
 
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String nombreUsuario, String apellidoUsuario, String segundoApellidoUsuario, String nif, String tipoTarifa, String direccion) {
+    public Usuario(int idUsuario, String nombreUsuario, String apellidoUsuario, String segundoApellidoUsuario, String nif, int tipoTarifa, String direccion) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.apellidoUsuario = apellidoUsuario;
@@ -64,11 +64,11 @@ public class Usuario {
         this.nif = nif;
     }
 
-    public String getTipoTarifa() {
+    public int getTipoTarifa() {
         return tipoTarifa;
     }
 
-    public void setTipoTarifa(String tipoTarifa) {
+    public void setTipoTarifa(int tipoTarifa) {
         this.tipoTarifa = tipoTarifa;
     }
 

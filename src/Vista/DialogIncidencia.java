@@ -1,6 +1,7 @@
 
 package Vista;
 
+import Modelo.Incidencia;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 public class DialogIncidencia extends javax.swing.JDialog {
 
     public DefaultTableModel modeloIncidencia;
+    public DialogNuevaIncidencia nuevaInci;
     
     public DialogIncidencia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -24,6 +26,8 @@ public class DialogIncidencia extends javax.swing.JDialog {
         TablaIncidencias.setModel(modeloIncidencia);
         modeloIncidencia.addColumn("ID INCIDENCIA");
         modeloIncidencia.addColumn("DESCRIPCION");
+        nuevaInci = new DialogNuevaIncidencia(parent,true);
+        
         
     }
 
@@ -42,6 +46,14 @@ public class DialogIncidencia extends javax.swing.JDialog {
         BTNuevaInci = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 255));
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
@@ -64,6 +76,11 @@ public class DialogIncidencia extends javax.swing.JDialog {
         jScrollPane1.setViewportView(TablaIncidencias);
 
         BTNuevaInci.setText("NUEVA INCIDENCIA");
+        BTNuevaInci.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNuevaInciActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,6 +110,21 @@ public class DialogIncidencia extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //cargamos las incidencias en la tabla
+        cargarIncidencias();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void BTNuevaInciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNuevaInciActionPerformed
+
+        nuevaInci.setVisible(true);
+    }//GEN-LAST:event_BTNuevaInciActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
+        cargarIncidencias();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -134,6 +166,13 @@ public class DialogIncidencia extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+    public void cargarIncidencias(){
+        Inicio.listaIncidencias = Inicio.ctrl.getIncidencia();
+        modeloIncidencia.setRowCount(0);
+        for (Incidencia i:Inicio.listaIncidencias){
+            modeloIncidencia.addRow(new Object[]{i.getIdIncidencia(), i.getDescpricionIncidencia()});
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
