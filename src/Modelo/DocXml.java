@@ -50,7 +50,9 @@ public class DocXml {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
-		StreamResult result = new StreamResult(new File("C:\\Users\\Acer\\Desktop\\mes.xml"));
+                String ruta = System.getProperty("user.home") + "\\Desktop";
+                System.out.println(ruta);
+		StreamResult result = new StreamResult(new File(ruta+"\\mes.xml"));
 
 		transformer.transform(source, result);
 
